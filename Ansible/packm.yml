@@ -1,0 +1,15 @@
+---
+- name: installing multiple packages using Loop
+  hosts: test
+  become: true
+  gather_facts: false
+  tasks:
+    - name: installing packages
+      yum:
+        name: '{{ item }}'
+        state: latest
+      loop:
+        - git
+        - curl
+        - wget
+

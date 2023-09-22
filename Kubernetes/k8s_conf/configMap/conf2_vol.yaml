@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+    name: conf
+data: 
+  sample1: |
+    server {
+      listen 80:
+      location / {
+        proxy_pass http://localhost ;
+      }
+    }
+
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: cnf
+
+spec: 
+  containers: 
+    - name: cm-conf
+      image: nginx
+      command: ["sleep", "3600"]
+      volumeMounts:
+        - name: cnf-vol 
+          mountPath: /etc/nginx/conf.d/
+  volumes:
+    - name: cnf-vol
+      configMap:
+        name: conf
